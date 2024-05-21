@@ -18,7 +18,7 @@
             {{ session('success') }}
         </div>
     @endif
-    
+
     <!-- Agrega esto al final de tu vista -->
     <style>
         .custom-alert {
@@ -66,7 +66,7 @@
     </style>
 
     <div class="container">
-        <h1 class="text-center mb-4">Hoteles Disponibles</h1>
+        <h1 class="text-center mb-4">LISTA DE HOTELES</h1>
 
         <!-- Formulario de búsqueda -->
         <form action="{{ route('hoteles.index') }}" method="GET">
@@ -90,13 +90,13 @@
                         @endforeach
                     </select>
                 </div>
-                
+
             </div>
 
             <div class="mb-3">
                 <div class="d-flex justify-content-between">
                     <button type="submit" class="btn btn-success">Aplicar Filtro</button>
-                    
+
                     @can('hoteles.create')
                         <a href="{{ route('hoteles.create') }}" class="btn btn-primary">Agregar Hotel</a>
                     @endcan
@@ -141,7 +141,7 @@
                             <a href="{{ route('reservaciones.create', ['hotel_id' => $hotel->id_hotel, 'hotel_nombre' => $hotel->nombre]) }}">
                                 <img src="{{ asset('img/' . $hotel->imagen) }}" alt="Imagen del hotel" class="card-img-top">
                             </a>
-                            
+
                             <div class="card-body">
                                 <p class="card-text"><b>Precio por Noche:</b> $ {{ number_format($hotel->precio_noche, 2) }}</p>
                                 <p class="card-text"><b>Ubicación:</b> {{ $hotel->getubicaciones->estado }}, {{ $hotel->getubicaciones->municipio }}</p>
