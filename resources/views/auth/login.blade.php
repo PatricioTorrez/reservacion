@@ -1,13 +1,5 @@
-<!doctype html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>{{ config('app.name', 'Laravel') }}</title>
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <style>
         body {
@@ -85,8 +77,7 @@
             src: url('font/Aztec.ttf');
         }
     </style>
-</head>
-<body>
+
 <div class="transparent-card">
     <div class="card-header fw-bold fs-4 transparent-card-header">{{ __('Inicia Sesión en Coacallis Hotel') }}</div>
 
@@ -140,7 +131,7 @@
                 {{ __('Crear cuenta nueva') }}
             </a>
         </form>
-    </div>
+    </di    v>
 </div>
 
 <script>
@@ -156,9 +147,8 @@
     });
 </script>
 
-<!-- Bootstrap JS -->
 <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT1mxrCFvCxng31p5j8p3mPpvYW05RM9v9I5hyoXW/HpbiVXss" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@1.16.0/dist/umd/popper.min.js" integrity="sha384-7/qFR0X+vFWJ9JqmfAhLVcG+bT8VDjz7aY4bMgN1AYyI8YwqWmkX79WabYOJxz+5" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js" integrity="sha384-vNF7GkHk08FzSOVX7k2Gm/5zO2J/COv3ho8aBddJOk7P1fY6HZ6k1KKkk/s7Y4Ve" crossorigin="anonymous"></script>
-</body>
-</html>
+
+
