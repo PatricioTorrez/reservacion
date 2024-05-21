@@ -74,4 +74,4 @@ Route::resource("tickets", TicketController::class);
 Route::resource("users", UserController::class)->only(['index', 'edit', 'update']);
 
 // Ruta de Inicio (Home)
-Route::get('/home', [HomeController::class, 'index'])->name('home');
+Route::get('/home', [HotelController::class, 'index'])->name('home'); // Cambia HomeController::class por HotelController::class

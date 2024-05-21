@@ -1,44 +1,43 @@
-@extends('layouts.app')
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 
-@section('content')
 <style>
 
-    body 
+    body
     {
         background-image: url("{{ asset('img/fondo.png') }}");
         background-size: cover;
     }
 
-    .transparent-card 
+    .transparent-card
     {
         background-color: rgba(0, 0, 0, 0.7);
         border-radius: 10px;
         box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.2);
     }
 
-    .transparent-card-header 
+    .transparent-card-header
     {
         color: #FFD700;
     }
 
-    .transparent-form-label 
+    .transparent-form-label
     {
         color: #FFD700;
     }
 
-    .transparent-error-message 
+    .transparent-error-message
     {
         color: #FF5733;
     }
 
-    .transparent-button 
+    .transparent-button
     {
         background-color: #FFD700;
         color: #ffffff;
         border: none;
     }
 
-    .transparent-link 
+    .transparent-link
     {
         color: #ffffff;
     }
@@ -65,9 +64,9 @@
                             <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required autocomplete="name" placeholder="Tu nombre completo">
 
                             @error('name')
-                                <div class="invalid-feedback" role="alert transparent-error-message">
-                                    <strong>{{ $message }}</strong>
-                                </div>
+                            <div class="invalid-feedback" role="alert transparent-error-message">
+                                <strong>{{ $message }}</strong>
+                            </div>
                             @enderror
                         </div>
 
@@ -77,9 +76,9 @@
                             <input id="ap" type="text" class="form-control @error('ap') is-invalid @enderror" name="ap" value="{{ old('ap') }}" required autocomplete="ap" placeholder="Primer Apellido">
 
                             @error('ap')
-                                <div class="invalid-feedback" role="alert transparent-error-message">
-                                    <strong>{{ $message }}</strong>
-                                </div>
+                            <div class="invalid-feedback" role="alert transparent-error-message">
+                                <strong>{{ $message }}</strong>
+                            </div>
                             @enderror
                         </div>
 
@@ -89,9 +88,9 @@
                             <input id="am" type="text" class="form-control @error('am') is-invalid @enderror" name="am" value="{{ old('am') }}" required autocomplete="am" placeholder="Segundo Apellido">
 
                             @error('am')
-                                <div class="invalid-feedback" role="alert transparent-error-message">
-                                    <strong>{{ $message }}</strong>
-                                </div>
+                            <div class="invalid-feedback" role="alert transparent-error-message">
+                                <strong>{{ $message }}</strong>
+                            </div>
                             @enderror
                         </div>
 
@@ -100,9 +99,9 @@
                             <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email"  required autocomplete="email" placeholder="usuario@example.com">
 
                             @error('email')
-                                <div class="invalid-feedback" role="alert transparent-error-message">
-                                    <strong>{{ $message }}</strong>
-                                </div>
+                            <div class="invalid-feedback" role="alert transparent-error-message">
+                                <strong>{{ $message }}</strong>
+                            </div>
                             @enderror
                         </div>
 
@@ -111,9 +110,9 @@
                             <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password" placeholder="Elije una contraseña segura">
 
                             @error('password')
-                                <div class="invalid-feedback" role="alert transparent-error-message">
-                                    <strong>{{ $message }}</strong>
-                                </div>
+                            <div class="invalid-feedback" role="alert transparent-error-message">
+                                <strong>{{ $message }}</strong>
+                            </div>
                             @enderror
                         </div>
 
@@ -132,5 +131,3 @@
         </div>
     </div>
 </div>
-</style>
-@endsection
