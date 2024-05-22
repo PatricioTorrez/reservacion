@@ -32,7 +32,7 @@
         }
 
         .card-header {
-            background-color: #fff
+            background-color: #ffffff;
             color: #fff;
             padding: 10px;
         }
@@ -136,7 +136,7 @@
 
     <!-- Script -->
     <script>
-        document.getElementById('fecha').addEventListener('input', function(event) 
+        document.getElementById('fecha').addEventListener('input', function(event)
         {
             let value = event.target.value.replace(/\D/g, '').substring(0, 4);
             if (value.length > 2) {
@@ -145,32 +145,32 @@
             event.target.value = value;
         });
 
-        document.getElementById('cvc').addEventListener('input', function(event) 
+        document.getElementById('cvc').addEventListener('input', function(event)
         {
             event.target.value = event.target.value.replace(/\D/g, '').substring(0, 3);
         });
 
-        document.getElementById('numero').addEventListener('input', function(event) 
+        document.getElementById('numero').addEventListener('input', function(event)
         {
             event.target.value = event.target.value.replace(/\D/g, '').substring(0, 18);
         });
 
-        document.getElementById('mostrarVistaPreviaBtn').addEventListener('click', function() 
+        document.getElementById('mostrarVistaPreviaBtn').addEventListener('click', function()
         {
             updatePreview();
             document.getElementById('vistaPreviaContainer').style.display = 'block';
         });
 
-        document.getElementById('confirmarBtn').addEventListener('click', function() 
+        document.getElementById('confirmarBtn').addEventListener('click', function()
         {
             document.getElementById('tarjetaForm').submit();
         });
 
-        document.getElementById('cerrarVistaPreviaBtn').addEventListener('click', function() 
+        document.getElementById('cerrarVistaPreviaBtn').addEventListener('click', function()
         {
             document.getElementById('vistaPreviaContainer').style.display = 'none';
         });
-        
+
           const pagarBtn = document.getElementById('mostrarVistaPreviaBtn');
         const fechaError = document.getElementById('fecha-error');
 
@@ -205,9 +205,9 @@
             updatePreview();
             document.getElementById('vistaPreviaContainer').style.display = 'block';
         });
-        
 
-        function updatePreview() 
+
+        function updatePreview()
         {
             document.getElementById('previewNombre').innerText = document.getElementById('nombre').value;
             document.getElementById('previewAp').innerText = document.getElementById('ap').value;
@@ -218,7 +218,7 @@
 
             const firstDigit = document.getElementById('numero').value.charAt(0);
             let previewBanco = document.getElementById('previewBanco');
-            switch (firstDigit) 
+            switch (firstDigit)
             {
                 case '1':
                 case '2':

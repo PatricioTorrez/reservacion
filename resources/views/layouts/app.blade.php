@@ -19,7 +19,7 @@
 
         }
         .navbar {
-            background-color: #00587b !important;
+            background-color: #1a969a !important;
             color: #000 !important;
             position: fixed;
             top: 0;
@@ -33,7 +33,7 @@
         }
         .sidebar {
             width: 250px;
-            background: #00587b;
+            background: #1a969a;
             color: #fff;
             flex-shrink: 0;
             position: fixed;
@@ -51,10 +51,10 @@
             display: block;
         }
         .sidebar a:hover {
-            background: #0098d4;
+            background: #5bbdc0;
         }
         .content {
-            margin-left: 250px;
+            margin-left: 245px;
             padding-top: 60px;
             padding-left: 20px;
             flex: 1;
@@ -109,7 +109,7 @@
     <div class="sidebar">
 
         <a class="navbar-brand text-center" href="{{ url('/') }}">
-            <img src="{{ asset('img/logo.png') }}" alt="Logo">
+            <img src="{{ asset('img/logo2.png') }}" alt="Logo">
         </a>
 
 
