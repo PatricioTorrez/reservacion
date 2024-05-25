@@ -109,7 +109,7 @@
     <div class="sidebar">
 
         <a class="navbar-brand text-center" href="{{ url('/') }}">
-            <img src="{{ asset('img/logo2.png') }}" alt="Logo">
+            <img src="{{ asset('img/logo.png') }}" alt="Logo">
         </a>
 
 

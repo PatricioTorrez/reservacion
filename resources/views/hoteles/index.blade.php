@@ -63,10 +63,15 @@
             margin-top: 10px;
             color: red;
         }
+        @font-face
+        {
+            font-family: 'Aztec';
+            src: url('font/Aztec.ttf');
+        }
     </style>
 
     <div class="container">
-        <h1 class="text-center mb-4">Hoteles Disponibles</h1>
+        <h1 class="text-center mb-4 ">Hoteles Disponibles</h1>
 
         <!-- Formulario de búsqueda -->
         <form action="{{ route('hoteles.index') }}" method="GET">

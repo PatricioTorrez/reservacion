@@ -89,10 +89,62 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="fecha">Fecha de vencimiento (MM/YY):</label>
-                        <input type="text" class="form-control" id="fecha" name="fecha" placeholder="MM/YY" required>
-                        <span id="fecha-error" class="text-danger" style="display: none;">Su tarjeta al parecer ya no es válida, verifica la fecha de vencimiento.</span>
+                        <label for="mes">Fecha de vencimiento:</label>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <select class="form-control" id="mes" name="mes" required>
+                                    <option value="">Mes</option>
+                                    @for ($i = 1; $i <= 12; $i++)
+                                        <option value="{{ sprintf('%02d', $i) }}">{{ sprintf('%02d', $i) }}</option>
+                                    @endfor
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <select class="form-control" id="ano" name="ano" required>
+                                    <option value="">Año</option>
+                                    @for ($i = date('Y'); $i <= date('Y') + 10; $i++)
+                                        <option value="{{ $i }}">{{ $i }}</option>
+                                    @endfor
+                                </select>
+                            </div>
+                        </div>
+                        <span id="fecha-error" class="text-danger" style="display: none;">La tarjeta parece haber expirado, verifica la fecha de vencimiento.</span>
                     </div>
+                    <script>
+                        // Validación de la fecha de vencimiento
+                        document.getElementById('mes').addEventListener('change', function(event) {
+                            validateExpiryDate();
+                        });
+
+                        document.getElementById('ano').addEventListener('change', function(event) {
+                            validateExpiryDate();
+                        });
+
+                        function validateExpiryDate() {
+                            const selectedMonth = parseInt(document.getElementById('mes').value);
+                            const selectedYear = parseInt(document.getElementById('ano').value);
+
+                            const currentDate = new Date();
+                            const currentYear = currentDate.getFullYear() % 100; // Obtiene los últimos dos dígitos del año actual
+                            const currentMonth = currentDate.getMonth() + 1; // Obtiene el mes actual (comienza desde 0)
+
+                            if (selectedMonth && selectedYear) {
+                                // Verificar si la fecha seleccionada es anterior a la fecha actual
+                                if (selectedYear < currentYear || (selectedYear == currentYear && selectedMonth < currentMonth)) {
+                                    document.getElementById('fecha-error').style.display = 'inline';
+                                } else {
+                                    document.getElementById('fecha-error').style.display = 'none';
+                                }
+                            }
+                        }
+
+                        // Llamar a la función de validación al cargar la página
+                        window.onload = validateExpiryDate;
+                    </script>
+
+
+
+
 
 
                     <div class="form-group">

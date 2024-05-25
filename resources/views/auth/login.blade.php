@@ -131,7 +131,7 @@
                 {{ __('Crear cuenta nueva') }}
             </a>
         </form>
-    </di    v>
+    </div>
 </div>
 
 <script>

@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-@if($errors->any())
+    @if($errors->any())
         <div class="alert alert-danger">
             {{ $errors->first() }}
         </div>
@@ -24,7 +24,7 @@
             font-family: 'Times New Roman', serif;
             text-align: center;
             margin: 0 auto;
-            font-size: 20px; /* Ajusta el tamaño de la fuente según tus preferencias */
+            font-size: 20px;
         }
 
         .card {
@@ -32,14 +32,39 @@
         }
 
         .card-header {
-            background-color: #fff
+            background-color: #343a40;
             color: #fff;
             padding: 10px;
         }
 
-        .card-body,
-        .card-footer {
+        .card-body, .card-footer {
             padding: 15px;
+        }
+
+        .table {
+            margin-top: 20px;
+        }
+
+        .table th, .table td {
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        .table th {
+            background-color: #343a40;
+            color: #fff;
+        }
+
+        .btn {
+            margin-right: 5px;
+        }
+
+        .btn-warning, .btn-danger {
+            color: #fff;
+        }
+
+        .btn-warning:hover, .btn-danger:hover {
+            opacity: 0.8;
         }
     </style>
 
@@ -60,34 +85,35 @@
             hideAndStyleAlerts();
         });
     </script>
-    <div class="container">
-        <h1>Lista de Ubicaciones</h1>
-    
-        <a href="{{ route('ubicaciones.create') }}" class="btn btn-primary">Agregar</a>
 
-        <table class="table table-striped">
+    <div class="container">
+        <h1 class="my-4">Lista de Ubicaciones</h1>
+
+        <a href="{{ route('ubicaciones.create') }}" class="btn btn-primary mb-3">Agregar Nueva Ubicación</a>
+
+        <table class="table table-bordered table-hover">
             <thead>
-                <tr>
-                    <th>ID Ubicación</th>
-                    <th>Estado</th>
-                    <th>Municipio</th>
-                </tr>
+            <tr>
+                <th>#</th>
+                <th>Estado</th>
+                <th>Municipio</th>
+                <th>Acciones</th>
+            </tr>
             </thead>
             <tbody>
-                @foreach($ubicaciones as $ubicacion)
-                    <tr>
-                        <td>{{ $loop->index+1 }}</td>
-                        <td>{{ $ubicacion->estado }}</td>
-                        <td>{{ $ubicacion->municipio }}</td>
-                        <td>
-                            
-                            @can('ubicaciones.edit')
+            @foreach($ubicaciones as $ubicacion)
+                <tr>
+                    <td>{{ $loop->iteration }}</td>
+                    <td>{{ $ubicacion->estado }}</td>
+                    <td>{{ $ubicacion->municipio }}</td>
+                    <td>
+                        @can('ubicaciones.edit')
                             <a href="{{ route('ubicaciones.edit', $ubicacion) }}" class="btn btn-warning">
                                 <i class="fas fa-edit"></i> Editar
                             </a>
-                            @endcan
+                        @endcan
 
-                            @can('ubicaciones.destroy')
+                        @can('ubicaciones.destroy')
                             <form action="{{ route('ubicaciones.destroy', $ubicacion) }}" method="POST" style="display:inline;">
                                 @csrf
                                 @method('DELETE')
@@ -95,10 +121,10 @@
                                     <i class="fas fa-trash"></i> Borrar
                                 </button>
                             </form>
-                            @endcan
-                        </td>
-                    </tr>
-                @endforeach
+                        @endcan
+                    </td>
+                </tr>
+            @endforeach
             </tbody>
         </table>
     </div>
