@@ -19,7 +19,6 @@
         </div>
     @endif
 
-    <!-- Agrega esto al final de tu vista -->
     <style>
         .custom-alert {
             font-family: 'Times New Roman', serif;
@@ -49,9 +48,10 @@
         });
     </script>
 
-
     <style>
         .card {
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             transition: transform 0.3s ease; /* Agrega la transición a todos los elementos .card */
         }
 
@@ -62,6 +62,11 @@
         .no-rooms-alert {
             margin-top: 10px;
             color: red;
+        }
+
+        .card-img-top {
+            height: 300px;
+            object-fit: cover;
         }
     </style>
 
@@ -147,24 +152,24 @@
                                 <p class="card-text"><b>Ubicación:</b> {{ $hotel->getubicaciones->estado }}, {{ $hotel->getubicaciones->municipio }}</p>
                                 <p class="card-text"><b>Tipos de Habitación Disponibles:</b><br>
                                     @php
-                                    $habitacionesDisponibles = false;
-                                    foreach($hotel->habitaciones as $habitacion)
-                                    {
-                                        if ($habitacion->pivot->cantidad_habitacion > 0) {
-                                            $habitacionesDisponibles = true;
-                                            break;
+                                        $habitacionesDisponibles = false;
+                                        foreach($hotel->habitaciones as $habitacion)
+                                        {
+                                            if ($habitacion->pivot->cantidad_habitacion > 0) {
+                                                $habitacionesDisponibles = true;
+                                                break;
+                                            }
                                         }
-                                    }
                                     @endphp
 
                                     @if ($habitacionesDisponibles)
-                                    @foreach($hotel->habitaciones as $habitacion)
-                                    {{ $habitacion->tipo_habitacion }} (Disponibles: {{ $habitacion->pivot->cantidad_habitacion }})<br>
-                                    @endforeach
-                                    @else
+                                        @foreach($hotel->habitaciones as $habitacion)
+                                            {{ $habitacion->tipo_habitacion }} (Disponibles: {{ $habitacion->pivot->cantidad_habitacion }})<br>
+                                @endforeach
+                                @else
                                     <p class="no-rooms-alert">No hay habitaciones disponibles en este momento.</p>
                                     @endif
-                                </p>
+                                    </p>
                             </div>
                             <div class="card-footer text-center">
                                 @can('hoteles.edit')
