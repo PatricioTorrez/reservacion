@@ -63,17 +63,15 @@
             margin-top: 10px;
             color: red;
         }
-<<<<<<< HEAD
-        @font-face
-        {
+
+        @font-face {
             font-family: 'Aztec';
             src: url('font/Aztec.ttf');
-=======
+        }
 
         .card-img-top {
             height: 300px;
             object-fit: cover;
->>>>>>> origin/panchito
         }
     </style>
 
