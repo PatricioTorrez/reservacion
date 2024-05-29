@@ -45,51 +45,56 @@ class TarjetaUsuarioController extends Controller
      */
     public function store(Request $request)
     {
+        // Validar los campos del formulario
         $request->validate([
-        "nombre" => "required",
-        "ap" => "required",
-        "am" => "required",
-        "numero" => "required|string|between:16,25",
-        "fecha" => "required|string|size:5",
-        "cvc" => "required|string|size:3",
-    ]);
+            "nombre" => "required|string|max:255",
+            "ap" => "required|string|max:255",
+            "am" => "required|string|max:255",
+            "numero" => ["required", "string", "regex:/^\d{16,19}$/"],
+            "fecha" => ["required", "string", "regex:/^(0[1-9]|1[0-2])\/?([0-9]{2})$/"],
+            "cvc" => ["required", "string", "regex:/^\d{3}$/"],
+        ]);
 
-    // Obtén el usuario autenticado
-    $user = auth()->user();
+        // Verificar la fecha de vencimiento
+        $fechaVencimiento = $request->input('fecha');
+        $mes = intval(substr($fechaVencimiento, 0, 2));
+        $anio = intval('20' . substr($fechaVencimiento, 3, 2));
 
-    // Crear nueva instancia de Reservacion
-    $tarjeta = new Tarjeta;
+        $fechaActual = new \DateTime();
+        $fechaVencimiento = \DateTime::createFromFormat('m/Y', sprintf('%02d/%d', $mes, $anio));
+        $fechaVencimiento->modify('last day of this month'); // Obtener el último día del mes de vencimiento
 
-    // Asignar valores de la reservación
-    $tarjeta->nombre = $request->nombre;
-    $tarjeta->ap = $request->ap;
-    $tarjeta->am = $request->am;
-    $tarjeta->numero = $request->numero;
-    $tarjeta->fecha = $request->fecha;
-    $tarjeta->cvc = $request->cvc;
-    $tarjeta->user_id = $user->id; // Asignar el ID del usuario autenticado
+        if ($fechaVencimiento < $fechaActual) {
+            return redirect()->back()->withErrors(['fecha' => 'La fecha de vencimiento de la tarjeta ya ha pasado.']);
+        }
 
-    // Guardar la reservación
-    $tarjeta->save();
+        // Obtener el usuario autenticado
+        $user = auth()->user();
 
-    /*Tarjeta::create([
-        "nombre" => $request->nombre,
-        "ap" => $request->ap,
-        "am" => $request->am,
-        "numero" => $request->numero,
-        "fecha" => $request->fecha,
-        "cvc" => $request->cvc,
-    ]);*/
+        // Crear nueva instancia de Tarjeta
+        $tarjeta = new Tarjeta;
 
-    if (auth()->user()->hasRole('Admin')) 
-    {
-        return redirect()->route('tarjetas.index');
-    } 
-    else 
-    {
-        return redirect()->route('tickets.create');
+        // Asignar valores a la tarjeta
+        $tarjeta->nombre = $request->nombre;
+        $tarjeta->ap = $request->ap;
+        $tarjeta->am = $request->am;
+        $tarjeta->numero = $request->numero;
+        $tarjeta->fecha = $request->fecha;
+        $tarjeta->cvc = $request->cvc;
+        $tarjeta->user_id = $user->id; // Asignar el ID del usuario autenticado
+
+        // Guardar la tarjeta
+        $tarjeta->save();
+
+        // Redirigir según el rol del usuario
+        if (auth()->user()->hasRole('Admin')) {
+            return redirect()->route('tarjetas.index')->with('success', 'Tarjeta agregada exitosamente.');
+        } else {
+            return redirect()->route('tickets.create')->with('success', 'Tarjeta agregada exitosamente.');
+        }
     }
-    }
+
+
 
     /**
      * Display the specified resource.
@@ -126,7 +131,7 @@ class TarjetaUsuarioController extends Controller
     {
         $tarjeta = Tarjeta::findOrFail($id);
 
-        
+
 
         $tarjeta->update([
             "nombre" => $request->nombre,

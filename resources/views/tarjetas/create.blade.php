@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-@if($errors->any())
+    @if($errors->any())
         <div class="alert alert-danger">
             {{ $errors->first() }}
         </div>
@@ -84,72 +84,24 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="numero">Número de la tarjeta (16-18 dígitos):</label>
-                        <input type="text" class="form-control" id="numero" name="numero" required>
+                        <label for="numero">Número de la tarjeta (16-19 dígitos):</label>
+                        <input type="text" class="form-control" id="numero" name="numero" required pattern="\d{16,19}">
+                        <span id="numero-error" class="text-danger" style="display: none;">El número de tarjeta debe tener al menos 16 dígitos.</span>
                     </div>
 
                     <div class="form-group">
-                        <label for="mes">Fecha de vencimiento:</label>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <select class="form-control" id="mes" name="mes" required>
-                                    <option value="">Mes</option>
-                                    @for ($i = 1; $i <= 12; $i++)
-                                        <option value="{{ sprintf('%02d', $i) }}">{{ sprintf('%02d', $i) }}</option>
-                                    @endfor
-                                </select>
-                            </div>
-                            <div class="col-md-6">
-                                <select class="form-control" id="ano" name="ano" required>
-                                    <option value="">Año</option>
-                                    @for ($i = date('Y'); $i <= date('Y') + 10; $i++)
-                                        <option value="{{ $i }}">{{ $i }}</option>
-                                    @endfor
-                                </select>
-                            </div>
-                        </div>
-                        <span id="fecha-error" class="text-danger" style="display: none;">La tarjeta parece haber expirado, verifica la fecha de vencimiento.</span>
+                        <label for="fecha">Fecha de vencimiento (MM/YY):</label>
+                        <input type="text" class="form-control" id="fecha" name="fecha" placeholder="MM/YY" required>
+                        @if ($errors->has('fecha'))
+                            <span class="text-danger">{{ $errors->first('fecha') }}</span>
+                        @endif
+                        <span id="fecha-error" class="text-danger" style="display: none;">Su tarjeta al parecer ya no es válida, verifica la fecha de vencimiento.</span>
+                        <span id="mes-error" class="text-danger" style="display: none;">El mes debe estar entre 01 y 12.</span>
                     </div>
-                    <script>
-                        // Validación de la fecha de vencimiento
-                        document.getElementById('mes').addEventListener('change', function(event) {
-                            validateExpiryDate();
-                        });
-
-                        document.getElementById('ano').addEventListener('change', function(event) {
-                            validateExpiryDate();
-                        });
-
-                        function validateExpiryDate() {
-                            const selectedMonth = parseInt(document.getElementById('mes').value);
-                            const selectedYear = parseInt(document.getElementById('ano').value);
-
-                            const currentDate = new Date();
-                            const currentYear = currentDate.getFullYear() % 100; // Obtiene los últimos dos dígitos del año actual
-                            const currentMonth = currentDate.getMonth() + 1; // Obtiene el mes actual (comienza desde 0)
-
-                            if (selectedMonth && selectedYear) {
-                                // Verificar si la fecha seleccionada es anterior a la fecha actual
-                                if (selectedYear < currentYear || (selectedYear == currentYear && selectedMonth < currentMonth)) {
-                                    document.getElementById('fecha-error').style.display = 'inline';
-                                } else {
-                                    document.getElementById('fecha-error').style.display = 'none';
-                                }
-                            }
-                        }
-
-                        // Llamar a la función de validación al cargar la página
-                        window.onload = validateExpiryDate;
-                    </script>
-
-
-
-
-
 
                     <div class="form-group">
                         <label for="cvc">CVC (3 dígitos):</label>
-                        <input type="text" class="form-control" id="cvc" name="cvc" required>
+                        <input type="text" class="form-control" id="cvc" name="cvc" required pattern="\d{3}">
                     </div>
 
                     <div class="text-center mt-4">
@@ -157,7 +109,7 @@
                             Pagar
                         </button>
                         @can ('tarjetas.index')
-                        <a href="{{ route('tarjetas.index') }}" class="btn btn-secondary">Volver</a>
+                            <a href="{{ route('tarjetas.index') }}" class="btn btn-secondary">Volver</a>
                         @endcan
                     </div>
                 </form>
@@ -204,11 +156,37 @@
 
         document.getElementById('numero').addEventListener('input', function(event)
         {
-            event.target.value = event.target.value.replace(/\D/g, '').substring(0, 18);
+            event.target.value = event.target.value.replace(/\D/g, '').substring(0, 19);
+            const numeroError = document.getElementById('numero-error');
+            if (event.target.value.length < 16) {
+                numeroError.style.display = 'inline';
+            } else {
+                numeroError.style.display = 'none';
+            }
         });
 
         document.getElementById('mostrarVistaPreviaBtn').addEventListener('click', function()
         {
+            const numero = document.getElementById('numero').value;
+            const fecha = document.getElementById('fecha').value;
+            const pagarBtn = document.getElementById('mostrarVistaPreviaBtn');
+            const fechaError = document.getElementById('fecha-error');
+            const mesError = document.getElementById('mes-error');
+
+            const month = parseInt(fecha.substring(0, 2), 10);
+
+            if (numero.length < 16) {
+                alert('El número de tarjeta debe tener al menos 16 dígitos.');
+                return;
+            }
+
+            if (month < 1 || month > 12) {
+                mesError.style.display = 'inline';
+                return;
+            } else {
+                mesError.style.display = 'none';
+            }
+
             updatePreview();
             document.getElementById('vistaPreviaContainer').style.display = 'block';
         });
@@ -223,54 +201,39 @@
             document.getElementById('vistaPreviaContainer').style.display = 'none';
         });
 
-          const pagarBtn = document.getElementById('mostrarVistaPreviaBtn');
-        const fechaError = document.getElementById('fecha-error');
-
-        document.getElementById('fecha').addEventListener('input', function (event) {
+        document.getElementById('fecha').addEventListener('input', function (event)
+        {
             let value = event.target.value.replace(/\D/g, '').substring(0, 4);
-
-            // Asegura que los meses estén en el formato MM
             if (value.length > 2) {
                 value = value.replace(/(\d{2})/, '$1/').substring(0, 5);
             }
-
-            // Muestra el mensaje de error si el año es menor a 24 y deshabilita el botón
-            const year = value.substring(3);
-            if (year.length === 2) {
-                const yearValue = parseInt(year);
-                if (yearValue < 24) {
-                    fechaError.style.display = 'inline';
-                    pagarBtn.disabled = true;
-                } else {
-                    fechaError.style.display = 'none';
-                    pagarBtn.disabled = false;
-                }
-            } else {
-                fechaError.style.display = 'none';
-                pagarBtn.disabled = false;
-            }
-
             event.target.value = value;
+
+            const month = parseInt(value.substring(0, 2), 10);
+            const year = parseInt('20' + value.substring(3, 5), 10);
+            const currentDate = new Date();
+            const expiryDate = new Date(year, month - 1); // Months are 0-based in JavaScript
+
+            if (expiryDate < currentDate) {
+                document.getElementById('fecha-error').style.display = 'inline';
+                document.getElementById('mostrarVistaPreviaBtn').disabled = true;
+            } else {
+                document.getElementById('fecha-error').style.display = 'none';
+                document.getElementById('mostrarVistaPreviaBtn').disabled = false;
+            }
         });
 
-        document.getElementById('mostrarVistaPreviaBtn').addEventListener('click', function () {
-            updatePreview();
-            document.getElementById('vistaPreviaContainer').style.display = 'block';
-        });
+        function updatePreview() {
+            document.getElementById('previewNombre').textContent = document.getElementById('nombre').value;
+            document.getElementById('previewAp').textContent = document.getElementById('ap').value;
+            document.getElementById('previewAm').textContent = document.getElementById('am').value;
+            document.getElementById('previewNumero').textContent = document.getElementById('numero').value;
+            document.getElementById('previewFecha').textContent = document.getElementById('fecha').value;
+            document.getElementById('previewCvc').textContent = document.getElementById('cvc').value;
 
-
-        function updatePreview()
-        {
-            document.getElementById('previewNombre').innerText = document.getElementById('nombre').value;
-            document.getElementById('previewAp').innerText = document.getElementById('ap').value;
-            document.getElementById('previewAm').innerText = document.getElementById('am').value;
-            document.getElementById('previewNumero').innerText = document.getElementById('numero').value;
-            document.getElementById('previewFecha').innerText = document.getElementById('fecha').value;
-            document.getElementById('previewCvc').innerText = document.getElementById('cvc').value;
-
-            const firstDigit = document.getElementById('numero').value.charAt(0);
-            let previewBanco = document.getElementById('previewBanco');
-            switch (firstDigit)
+            const banco = document.getElementById('numero').value[0];
+            const previewBanco = document.getElementById('previewBanco');
+            switch (banco)
             {
                 case '1':
                 case '2':
@@ -292,16 +255,5 @@
                     break;
             }
         }
-
-         document.getElementById('numero').addEventListener('input', function (event) {
-            let value = event.target.value.replace(/\D/g, '').substring(0, 18);
-
-            // Asegúrate de que el primer dígito no sea 0
-            if (value.charAt(0) === '0') {
-                value = value.substring(1);
-            }
-
-            event.target.value = value;
-        });
     </script>
 @endsection
