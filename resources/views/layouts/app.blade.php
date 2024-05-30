@@ -77,6 +77,15 @@
                 width: calc(100% - var(--sidebar-width));
             }
         }
+
+        #logo {
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        .hidden {
+            opacity: 0;
+        }
+
     </style>
 
 
@@ -109,11 +118,12 @@
     <div class="sidebar">
 
         <a class="navbar-brand text-center" href="{{ url('/') }}">
-            <img src="{{ asset('img/logo.png') }}" alt="Logo">
+            <img id="logo" src="{{ asset('img/calli2.png') }}" alt="Logo">
         </a>
 
 
-        @can('ubicaciones.index')
+
+    @can('ubicaciones.index')
             <a href="{{ route('ubicaciones.index') }}"><i class="fas fa-map-marker-alt"></i> Agregar Ubicación</a>
         @endcan
         @can('habitaciones.index')
@@ -155,4 +165,27 @@
             @yield('content')
         </main>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var logo = document.getElementById('logo');
+
+            logo.addEventListener('mouseover', function() {
+                logo.classList.add('hidden');
+                setTimeout(function() {
+                    logo.src = '{{ asset('img/calli1.png') }}';
+                    logo.classList.remove('hidden');
+                }, 300); // Espera a que la opacidad llegue a 0 antes de cambiar la imagen
+            });
+
+            logo.addEventListener('mouseout', function() {
+                logo.classList.add('hidden');
+                setTimeout(function() {
+                    logo.src = '{{ asset('img/calli2.png') }}';
+                    logo.classList.remove('hidden');
+                }, 300); // Espera a que la opacidad llegue a 0 antes de cambiar la imagen
+            });
+        });
+    </script>
+
 </div>

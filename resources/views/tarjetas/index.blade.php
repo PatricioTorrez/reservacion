@@ -115,7 +115,7 @@
                         <div class="card-body">
                             <p class="card-text"><b>Número de Tarjeta:</b> {{ $tarjeta->numero }}</p>
                             <p class="card-text"><b>Fecha de Vencimiento:</b> {{ $tarjeta->fecha }}</p>
-                            <p class="card-text"><b>CVC:</b> {{ sprintf('%03d', $tarjeta->cvc) }}</p>
+                            <p class="card-text"><b>CVC:</b> {{ str_repeat('*', strlen($tarjeta->cvc)) }}</p>
                             <div class="text-center my-3">
                                 @php
                                     $firstDigit = substr($tarjeta->numero, 0, 1);

@@ -32,7 +32,7 @@
         }
 
         .card-header {
-            background-color: #fff
+            background-color: #ffffff;
             color: #fff;
             padding: 10px;
         }
@@ -66,10 +66,23 @@
         <form method="POST" action="{{ route('tickets.store') }}">
             @csrf
 
+            <style>
+                /* Oculta el botón del calendario en navegadores compatibles */
+                input[type="date"]::-webkit-calendar-picker-indicator {
+                    display: none;
+                }
+
+                /* Oculta el botón del calendario en Firefox */
+                input[type="date"] {
+                    pointer-events: none;
+                }
+            </style>
+
             <div class="form-group">
                 <label for="fecha_pago">Fecha de pago:</label>
                 <input type="date" class="form-control" id="fecha_pago" name="fecha_pago" required value="{{ old('scheduled_date', $now->format('Y-m-d')) }}">
             </div>
+
 
             <div class="form-group">
                 <label for="id_reservacion">Selecciona una reservación:</label>

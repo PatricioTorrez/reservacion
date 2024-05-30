@@ -29,17 +29,36 @@
 
         .card {
             margin-bottom: 20px;
+            height: 100%; /* Asegura que la tarjeta ocupe todo el espacio disponible */
+            display: flex;
+            flex-direction: column;
         }
 
         .card-header {
-            background-color: #fff
-            color: #fff;
+            background-color: #fff;
+            color: #000;
             padding: 10px;
         }
 
-        .card-body,
+        .card-body {
+            flex: 1; /* Permite que el cuerpo de la tarjeta se expanda */
+        }
+
         .card-footer {
             padding: 15px;
+            text-align: center; /* Centra los botones en el pie de la tarjeta */
+        }
+
+        .row {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .col-md-4 {
+            display: flex;
+            flex: 1;
+            max-width: 33.3333%; /* Asegura que haya tres tarjetas por fila */
+            padding: 10px;
         }
     </style>
 
