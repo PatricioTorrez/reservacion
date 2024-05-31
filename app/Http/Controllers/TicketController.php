@@ -9,6 +9,8 @@ use App\Models\Ticket;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
+use PDF;
 
 use Illuminate\Http\Request;
 
@@ -53,7 +55,7 @@ class TicketController extends Controller
 
         return view("tickets.index", compact("tickets", "reservaciones", "hoteles", "tarjetas"));
     }
-    
+
 
     /**
      * Show the form for creating a new resource.
@@ -71,7 +73,7 @@ class TicketController extends Controller
         $tarjetas = $user->hasRole('Admin','Cliente')
             ? Tarjeta::all()
             : $user->tarjetas;
-        
+
         $hoteles = $user->hasRole('Admin','Cliente')
             ? Hotel::all()
             : $user->hoteles;
@@ -86,7 +88,7 @@ class TicketController extends Controller
 
         // Ahora, obtén la información de la reservación para mostrarla en la vista
         $reservacion = Reservacion::find($p_reservacion_id);
-        
+
         return view('tickets.create', compact('reservaciones', 'hoteles', 'tarjetas', 'now', 'reservacion'));
     }
 
@@ -96,7 +98,7 @@ class TicketController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    
+
     public function store(Request $request)
     {
         $request->validate([
@@ -110,12 +112,12 @@ class TicketController extends Controller
             "id_hotel.required" => "El ID de Hotel es requerido.",
             "id_tarjeta.required" => "El ID de Tarjeta es requerido.",
         ]);
-    
+
         $p_reservacion_id = $request->input('id_reservacion');
-    
+
         // Obtener el usuario autenticado
         $user = Auth::user();
-    
+
         // Crear el ticket con un valor inicial para precio_total
         $ticket = new Ticket([
             'fecha_pago' => $request->fecha_pago,
@@ -124,15 +126,15 @@ class TicketController extends Controller
             'id_hotel' => $request->id_hotel,
             'id_tarjeta' => $request->id_tarjeta,
         ]);
-    
+
         // Asociar el ticket al usuario
         $user->tickets()->save($ticket);
-    
+
         // Llamado al procedimiento almacenado para calcular el total
         DB::select("CALL calcularTotal(?)", [$p_reservacion_id]);
-    
+
         return redirect()->route('tickets.index')->with('success', 'Ticket creado exitosamente');
-    
+
     }
 
     /**
@@ -199,5 +201,24 @@ class TicketController extends Controller
         $ticket->forceDelete();
         return redirect()->back();
 
+    }
+
+    public function generatePDF($id)
+    {
+        $ticket = Ticket::with(['getreservaciones', 'gethoteles', 'gettarjetas'])->findOrFail($id);
+
+        $precioTotal = $ticket->precio_total;
+
+        $data = ['tickets' => [$ticket]];
+        $pdf = PDF::loadView('tickets.pdf', $data)->setPaper([0, 0, 420, 450], 'portrait');;
+
+        $fileName = 'ticket_' . $ticket->id_ticket . '_' . time() . '.pdf';
+
+        Storage::disk('public')->put($fileName, $pdf->output());
+
+        $ticket->pdf_path = $fileName;
+        $ticket->save();
+
+        return response()->file(storage_path('app/public/' . $fileName));
     }
 }

@@ -13,7 +13,7 @@ class Ticket extends Model
 
     protected $table = "tickets";
     protected $primaryKey = "id_ticket";
-    protected $fillable = ['fecha_pago', 'id_reservacion', 'id_hotel', 'id_tarjeta', 'precio_total'];
+    protected $fillable = ['fecha_pago', 'id_reservacion', 'id_hotel', 'id_tarjeta', 'precio_total','pdf_path'];
 
     public function getreservaciones()
     {

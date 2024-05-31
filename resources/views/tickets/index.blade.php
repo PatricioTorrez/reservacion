@@ -141,6 +141,9 @@
                                         </button>
                                     </form>
                                 @endcan
+                                        <a href="{{ route('tickets.generatePDF', $ticket->id_ticket) }}" class="btn btn-success btn-download mx-1" target="_blank">
+                                            <i class="fas fa-file-pdf"></i> Descargar ticket
+                                        </a>
                             </div>
                         </div>
                     </div>

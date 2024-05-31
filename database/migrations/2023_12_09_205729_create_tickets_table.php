@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('tickets', function (Blueprint $table) 
+        Schema::create('tickets', function (Blueprint $table)
         {
             $table->id('id_ticket');
             $table->date('fecha_pago');
@@ -26,6 +26,7 @@ return new class extends Migration
             $table->foreign('id_tarjeta')->references('id_tarjeta')->on('tarjetas')->onDelete('cascade');
             $table->unsignedBigInteger('user_id'); // Esta línea agrega la referencia a users
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->string('pdf_path')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

@@ -69,6 +69,7 @@ Route::resource('reservaciones', ReservacionController::class)->except(['create'
 
 // Rutas de Tickets
 Route::resource("tickets", TicketController::class);
+Route::get('tickets/{id}/generate-pdf', [TicketController::class, 'generatePDF'])->name('tickets.generatePDF');
 
 // Rutas de Permisos de Usuarios
 Route::resource("users", UserController::class)->only(['index', 'edit', 'update']);
