@@ -205,20 +205,26 @@ class TicketController extends Controller
 
     public function generatePDF($id)
     {
+        // Obtener el ticket junto con sus relaciones
         $ticket = Ticket::with(['getreservaciones', 'gethoteles', 'gettarjetas'])->findOrFail($id);
 
-        $precioTotal = $ticket->precio_total;
-
+        // Datos para la vista del PDF
         $data = ['tickets' => [$ticket]];
-        $pdf = PDF::loadView('tickets.pdf', $data)->setPaper([0, 0, 420, 450], 'portrait');;
 
+        // Generar el PDF
+        $pdf = PDF::loadView('tickets.pdf', $data)->setPaper([0, 0, 410, 500], 'portrait');
+
+        // Nombre del archivo PDF
         $fileName = 'ticket_' . $ticket->id_ticket . '_' . time() . '.pdf';
 
+        // Guardar el archivo PDF en el disco público
         Storage::disk('public')->put($fileName, $pdf->output());
 
+        // Actualizar la ruta del PDF en el modelo del ticket
         $ticket->pdf_path = $fileName;
         $ticket->save();
 
+        // Devolver el archivo PDF al usuario
         return response()->file(storage_path('app/public/' . $fileName));
     }
 }
