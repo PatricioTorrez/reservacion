@@ -25,6 +25,8 @@
             </div>
         @endif
 
+
+
         <!-- Agrega esto al final de tu vista -->
         <style>
             .custom-alert {
@@ -94,30 +96,26 @@
 
                     <div class="card">
                         <div class="card-body">
-
-                            <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#infoModal">
+                            <button type="button" class="btn btn-primary float-start me-3" data-bs-toggle="modal" data-bs-target="#infoModal">
                                 Información
                             </button>
 
-
+                            <!-- Modal de Información -->
                             <div class="modal fade" id="infoModal" tabindex="-1" aria-labelledby="infoModalLabel" aria-hidden="true">
-                                <div class="modal-dialog">
+                                <div class="modal-dialog modal-dialog-centered">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h5 class="modal-title" id="infoModalLabel"><b>Información Importante</b></h5>
+                                            <h5 class="modal-title" id="infoModalLabel">Información al reservar</h5>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                         </div>
                                         <div class="modal-body">
-                                            <p>
-                                                Dependiendo de la habitación seleccionada, el precio por noche puede aumentar.
-                                                Además, la capacidad para hospedar más o menos personas también dependerá de la habitación elegida.<p></p>
-                                            <p>El precio de la habitación "Individual" no aumenta el precio base</p>
-                                            <p>Habitación "Doble" su precio aumenta un 20%</p>
-                                            <p>Habitación "Triple" su precio aumenta un 30%</p>
-                                            Se contara como un adulto a niños mayores de 12 años.
-                                            </p>
+                                            <p>Dependiendo de la habitación seleccionada, el precio por noche puede aumentar.</p>
+                                            <p>Además, la capacidad para hospedar más o menos personas también dependerá de la habitación elegida.</p>
+                                            <p>El precio de la habitación "Individual" no aumenta el precio base.</p>
+                                            <p>Habitación "Doble" su precio aumenta un 20%.</p>
+                                            <p>Habitación "Triple" su precio aumenta un 30%.</p>
+                                            <p>Se considerará como adulto a niños mayores de 12 años.</p>
                                         </div>
-
                                     </div>
                                 </div>
                             </div>
@@ -239,7 +237,6 @@
                                             <div class="form-group">
                                                 <label for="cant_n">Cantidad de Niños:</label>
                                                 <input type="number" name="cant_n" class="form-control" required min="0" max="6" value="0">
-
                                             </div>
                                         </div>
                                         <small class="text-muted">Solo se contara como niño a personas menores de 12 años.</small>

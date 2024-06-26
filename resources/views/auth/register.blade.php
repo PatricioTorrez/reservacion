@@ -107,8 +107,12 @@
 
                         <div class="mb-3">
                             <label for="password" class="form-label transparent-form-label">{{ __('Contraseña') }}</label>
-                            <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password" placeholder="Elije una contraseña segura">
-
+                            <div class="input-group">
+                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password" placeholder="Elije una contraseña segura">
+                                <button class="btn btn-outline-secondary" type="button" id="togglePassword">
+                                    <i class="fas fa-eye" id="togglePasswordIcon"></i>
+                                </button>
+                            </div>
                             @error('password')
                             <div class="invalid-feedback" role="alert transparent-error-message">
                                 <strong>{{ $message }}</strong>
@@ -118,9 +122,37 @@
 
                         <div class="mb-3">
                             <label for="password-confirm" class="form-label transparent-form-label">{{ __('Confirmar Contraseña') }}</label>
-                            <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password" placeholder="Confirma tu contraseña">
-
+                            <div class="input-group">
+                                <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password" placeholder="Confirma tu contraseña">
+                                <button class="btn btn-outline-secondary" type="button" id="toggleConfirmPassword">
+                                    <i class="fas fa-eye" id="toggleConfirmIcon"></i>
+                                </button>
+                            </div>
                         </div>
+
+                        <script>
+                            document.addEventListener('DOMContentLoaded', function () {
+                                const passwordInput = document.getElementById('password');
+                                const confirmInput = document.getElementById('password-confirm');
+                                const togglePassword = document.getElementById('togglePassword');
+                                const togglePasswordIcon = document.getElementById('togglePasswordIcon');
+                                const toggleConfirmPassword = document.getElementById('toggleConfirmPassword');
+                                const toggleConfirmIcon = document.getElementById('toggleConfirmIcon');
+
+                                togglePassword.addEventListener('click', function () {
+                                    const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+                                    passwordInput.setAttribute('type', type);
+                                    togglePasswordIcon.classList.toggle('fa-eye-slash');
+                                });
+
+                                toggleConfirmPassword.addEventListener('click', function () {
+                                    const type = confirmInput.getAttribute('type') === 'password' ? 'text' : 'password';
+                                    confirmInput.setAttribute('type', type);
+                                    toggleConfirmIcon.classList.toggle('fa-eye-slash');
+                                });
+                            });
+                        </script>
+
 
                         <div class="d-grid">
                             <button type="submit" class="btn btn-primary btn-block mb-3 transparent-button"><b>{{ __('Registrarse') }}</b></button>
@@ -131,3 +163,30 @@
         </div>
     </div>
 </div>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const form = document.querySelector('form');
+        const passwordInput = document.getElementById('password');
+        const passwordError = document.createElement('div');
+        passwordError.classList.add('invalid-feedback');
+        passwordError.style.display = 'none';
+        passwordInput.parentNode.appendChild(passwordError);
+
+        function validatePassword() {
+            const password = passwordInput.value;
+            const regex = /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+            if (!regex.test(password)) {
+                passwordError.style.display = 'block';
+                passwordError.innerHTML = 'La contraseña debe tener al menos una letra mayúscula, un número y un carácter especial.';
+                passwordInput.classList.add('is-invalid');
+                return false;
+            } else {
+                passwordError.style.display = 'none';
+                passwordInput.classList.remove('is-invalid');
+                return true;
+            }
+        }
+
+        passwordInput.addEventListener('input', validatePassword);
+    });
+</script>
