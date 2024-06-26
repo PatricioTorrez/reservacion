@@ -106,7 +106,7 @@
 
                     <div class="text-center mt-4">
                         <button type="button" class="btn btn-primary" id="mostrarVistaPreviaBtn">
-                            Pagar
+                            Aceptar
                         </button>
                         @can ('tarjetas.index')
                             <a href="{{ route('tarjetas.index') }}" class="btn btn-secondary">Volver</a>
@@ -131,8 +131,8 @@
                     </div>
                 </div>
                 <div class="text-center mt-4">
-                    <button type="button" class="btn btn-success" id="confirmarBtn">Mi información es correcta</button>
-                    <button type="button" class="btn btn-danger" id="cerrarVistaPreviaBtn">Cambiar información</button>
+                    <button type="button" class="btn btn-success" id="confirmarBtn">Aceptar y registrar tarjeta</button>
+                    <button type="button" class="btn btn-danger" id="cerrarVistaPreviaBtn">Cancelar y cambiar información</button>
                 </div>
             </div>
         </div>
