@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Hotel;
 use App\Models\Reservacion;
 use App\Models\AsignaHabitacion;
-use App\Models\Tickets;
+use App\Models\Ticket;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -106,6 +106,13 @@ class ReservacionController extends Controller
         } else {
             // Si es un cliente, recupera solo sus reservaciones
             $reservaciones = Reservacion::where('user_id', $user->id)->get();
+        }
+
+        // Agregar información sobre si el ticket ya ha sido generado
+        foreach ($reservaciones as $reservacion) {
+            $reservacion->ticket_generado = Ticket::where('id_reservacion', $reservacion->id_reservacion)
+                ->where('user_id', $user->id)
+                ->exists();
         }
 
         // Pasa las reservaciones y otros datos a la vista

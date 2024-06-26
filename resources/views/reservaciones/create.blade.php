@@ -229,14 +229,29 @@
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label for="cant_a">Cantidad de Adultos:</label>
-                                                <input type="number" name="cant_a" class="form-control" required min="1" max="6" value="1">
+                                                <select name="cant_a" class="form-control" required>
+                                                    <option value="1">1</option>
+                                                    <option value="2">2</option>
+                                                    <option value="3">3</option>
+                                                    <option value="4">4</option>
+                                                    <option value="5">5</option>
+                                                    <option value="6">6</option>
+                                                </select>
                                             </div>
                                         </div>
 
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label for="cant_n">Cantidad de Niños:</label>
-                                                <input type="number" name="cant_n" class="form-control" required min="0" max="6" value="0">
+                                                <select name="cant_n" class="form-control" required>
+                                                    <option value="0">0</option>
+                                                    <option value="1">1</option>
+                                                    <option value="2">2</option>
+                                                    <option value="3">3</option>
+                                                    <option value="4">4</option>
+                                                    <option value="5">5</option>
+                                                    <option value="6">6</option>
+                                                </select>
                                             </div>
                                         </div>
                                         <small class="text-muted">Solo se contara como niño a personas menores de 12 años.</small>

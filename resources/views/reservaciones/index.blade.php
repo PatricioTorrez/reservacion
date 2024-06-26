@@ -87,7 +87,7 @@
         @endif
 
         <div class="row">
-            @foreach ($reservaciones as $reservacion)
+            @forelse ($reservaciones as $reservacion)
                 <div class="col-md-4">
                     <div class="card">
                         <div class="card-header">
@@ -125,10 +125,19 @@
                                     <i class="fas fa-trash"></i> Cancelar Reservación
                                 </button>
                             </form>
+                                @if(!$reservacion->ticket_generado)
+                                    <a href="{{ route('tarjetas.create', $reservacion) }}" class="btn btn-success"><i class="fa fa-credit-card"></i> Realizar Pago</a>
+                                @else
+                                    <button class="btn btn-secondary" disabled>Pago Realizado</button>
+                                @endif
                         </div>
                     </div>
                 </div>
-            @endforeach
+            @empty
+                <div class="col-md-12">
+                    <p>No hay reservaciones disponibles.</p>
+                </div>
+            @endforelse
         </div>
     </div>
 @endsection

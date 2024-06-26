@@ -86,7 +86,9 @@
         <a href="{{ route('asignahabitaciones.index') }}"><i class="fas fa-bed"></i> Asigna Habitaciones</a>
     @endcan
     <a href="{{ route('hoteles.index') }}"><i class="fas fa-hotel"></i> Hoteles<a href="{{ route('reservaciones.index') }}"><i class="fas fa-calendar-check"></i> Consultar Reservaciones</a>
+    @can('tarjetas.create')
     <a href="{{ route('tarjetas.create') }}"><i class="fas fa-credit-card"></i> Realizar Pago</a>
+    @endcan
     @can('tarjetas.index')
         <a href="{{ route('tarjetas.index') }}"><i class="fas fa-credit-card"></i> Consultar Tarjetas</a>
     @endcan
